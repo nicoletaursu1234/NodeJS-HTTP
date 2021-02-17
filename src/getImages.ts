@@ -1,18 +1,7 @@
-import { download } from "./download";
+import fs from "fs";
 
-export const getImages = async (
-  data,
-  options?
-): Promise<Set<String>> => {
-  console.log("called");
-
-  // socket
-  //   .connect(80, 'mib.utm.md', () => {
-  //     console.log(`Connected to socket`);
-  //   })
-  //   .setMaxListeners(40).setKeepAlive();
-
-  let imgs = new Set<string>();
+export default async (data, options?): Promise<any> => {
+  let imgs: String[] = [];
   const reg = /src=("|')+(https?)?(.\S*)\.(jpe?g|png|gif){1}("|')+/gm;
   const allMatches = data.match(reg);
 
@@ -30,14 +19,12 @@ export const getImages = async (
           url = sliced;
         }
 
-        imgs.add(url);
-
-        await download(url);
+        imgs.push(url);
       }
     }
   }
 
-  // socket.on('close', () => console.log('close'))
-
-  return imgs;
+  fs.writeFile("data.json", JSON.stringify(imgs), "utf8", (err) => {
+    err && console.log(err);
+  });
 };
