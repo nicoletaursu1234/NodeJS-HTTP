@@ -105,3 +105,7 @@ dist
 
 # build files
 dist/
+
+csr.pem
+private-key.pem
+public-cert.pem
