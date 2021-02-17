@@ -2,11 +2,10 @@ import net from "net";
 import fs from "fs";
 import http from "http";
 import https from "https";
-// import { id, index } from 'worker_threads';
 
 export const download = async (url): Promise<void> => {
-  const reg = /.*\.(png|jpe?g|gif)/;
-  const format: string = url.match(reg);
+  console.log("download");
+  const format = url.match(/.*\.(png|jpe?g|gif)/);
   const date = Date.now().toString() + new Date().getMilliseconds();
 
   if (url.includes("https")) {
@@ -19,40 +18,22 @@ export const download = async (url): Promise<void> => {
     });
   }
 
-  //  const urlSliced = url.slice(17);
+  // let data = "";
+  // socket.write(`GET /${url} HTTP/1.1\r\nHost: mib.utm.md\r\n\r\n`);
 
-  // const port = 80;
-  // const address = "81.180.73.230";
-
-  // const socket: net.Socket = new net.Socket();
   // socket
-  //   .connect(port, address, () => {
-  //     console.log(`Connected to socket ${address}:${port}`);
-  //   })
-  //   .setMaxListeners(15);
-
-  // let data = [];
-  // socket.write(`GET ${urlSliced} HTTP/1.1
-  // Host: mib.utm.md
-  // Content-Type: application/octet-stream
-
-  // `);
-
-  // await socket
   //   .on("data", (res) => {
-  //     data.push(res as never)
+  //     data += res;
   //   })
-  //   .on('error', (...all) => {console.warn(...all)})
-  //   .on("end", async () => {
-  //     let body = Buffer.concat(data);
-
-  //     await fs.writeFile(`src/imgs/${date}.${format[1]}`, body.toString(), (err) => {
-  //       err && console.error(err);
-  //     });
-
+  //   .on("error", (...all) => {
+  //     console.warn(...all);
+  //   })
+  //   .on("end", () => {
+  //     let res = data.split(/\r\n\r\n+?/);
+  //     const buffer = Buffer.from(res[1], 'base64');
+  //     console.log('res', res[1])
+  //     .pipe(fs.createWriteStream(`src/imgs/${date}.${format[1]}`));
   //   });
 
-  // socket.on("close", () => {
-  //   console.log("next");
-  // });
+  
 };
