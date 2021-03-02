@@ -1,16 +1,32 @@
-import ImapClient from "emailjs-imap-client";
+import imaps from "imap-simple";
 
-const client = new ImapClient("imap.mail.yahoo.com", 5500, {
-  auth: {
+const config = {
+  imap: {
     user: process.env.USER_NAME,
-    pass: process.env.PASSWORD,
+    password: process.env.PASSWORD,
+    host: "imap.mail.yahoo.com",
+    port: 993,
+    tls: true,
+    authTimeout: 10000,
   },
-});
+};
 
-client.connect().then(() => console.log("Connected to client"));
+export const fetchMessages = async () => {
 
-export const listBoxes = async () => {
-  return await client.listMailboxes().then((mailboxes) => {
-    console.log(mailboxes);
-  });
+  const messages = imaps.connect(config).then((connection) => {
+    return connection.openBox("INBOX").then(() => {
+      const searchCriteria = ["UNSEEN"];
+
+      const fetchOptions = {
+        bodies: ["HEADER", "TEXT"],
+        markSeen: false,
+      };
+
+      return connection.search(searchCriteria, fetchOptions).then((results) => {
+        return results;
+      });
+    })
+  }).then(data => data)
+ 
+  return messages;
 };

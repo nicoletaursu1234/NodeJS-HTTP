@@ -3,12 +3,13 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import multer from "multer";
+dotenv.config();
 
 import sendMail from "./sendMail";
 import fileFilter from "./fileFilter";
-import { listBoxes } from './imap';
+import { fetchMessages } from './imap';
+import showList from './showList';
 
-dotenv.config();
 
 const app = express();
 const storage = multer.memoryStorage();
@@ -23,9 +24,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.get("/mailbox", async (req, res) => {
-  const mailBoxes = await listBoxes();
+  const data = await fetchMessages();
 
-  res.send(mailBoxes);
+  showList(data);
 });
 
 app.get("/send", (req, res) => {
