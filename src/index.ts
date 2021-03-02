@@ -6,6 +6,7 @@ import multer from "multer";
 
 import sendMail from "./sendMail";
 import fileFilter from "./fileFilter";
+import { listBoxes } from './imap';
 
 dotenv.config();
 
@@ -20,6 +21,12 @@ const attachments = multer({
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.get("/mailbox", async (req, res) => {
+  const mailBoxes = await listBoxes();
+
+  res.send(mailBoxes);
+});
 
 app.get("/send", (req, res) => {
   res.send("Hi");
