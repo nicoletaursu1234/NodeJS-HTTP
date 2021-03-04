@@ -25,5 +25,7 @@ export default (data) => {
       body
     })
   }
+
+  return trimmedMails;
   
 }

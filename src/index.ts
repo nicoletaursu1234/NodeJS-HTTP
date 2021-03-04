@@ -26,7 +26,9 @@ app.use(bodyParser.json());
 app.get("/mailbox", async (req, res) => {
   const data = await fetchMessages();
 
-  showList(data);
+  const messages = await showList(data);
+
+  res.send(messages);
 });
 
 app.get("/send", (req, res) => {
